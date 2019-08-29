@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>QUIZ</title>
+</head>
+
+<body>
+
+<div>
+    <h1>技術科部 QUIZ</h1>
+    <form action="/question" method="POST">
+
+        <p>
+            問題{{ number }}<br>
+            {{ question }}
+        </p>
+
+        <input type="radio" name="1" value="ans1">{{ ans1 }}
+        <input type="radio" name="2" value="ans2">{{ ans2 }}
+
+        <input type="submit" name="answer" style="width: 150px;height: 40px">
+
+<style>
+    body {
+        background: #eeeeee;
+        font-family: Meiryo;
+    }
+
+    div {
+        background: #ffffff;
+        width: 300px;
+        padding: 10px;
+        text-align: center;
+        border: 1px solid #cccccc;
+        margin: 30px auto;
+    }
+</style>
+<p></p>
+<p></p>
+
+</form>
+
+</div>
+
+</body>
+</html>
