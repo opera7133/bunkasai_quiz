@@ -53,7 +53,6 @@ def correct(number, ans1, ans2, explain):
     else:
         return redirect(url_for("question"))
 
-
 @app.route("/wrong/<string:ans1>/<string:ans2>/<string:explain>/<int:number>", methods=["GET", "POST"])
 def wrong(number, ans1, ans2, explain):
     if request.method == "GET":
