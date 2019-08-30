@@ -1,4 +1,4 @@
-from flask import Flask, make_response, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for
 import pandas as pd
 import random
 
@@ -11,7 +11,7 @@ app = Flask(__name__)
 
 @app.route('/', methods=["GET", "POST"])
 def title():
-    action = request.form.getlist("action")
+    # action = request.form.getlist("action")
     if request.method == "GET":
         return render_template("title.html")
     else:
@@ -20,6 +20,7 @@ def title():
 
 @app.route("/question", methods=["GET", "POST"])
 def quiz():
+    # データ呼び出し
     global count, df
     ans1 = random.randint(0, 1)
     ans2 = 1 - ans1
@@ -42,18 +43,18 @@ def quiz():
                                     explain=ex))
 
 
-@app.route("/correct/<string:ans1>/<string:ans2>/<string:explain>", methods=["GET", "POST"])
-def correct(ans1, ans2, explain):
+@app.route("/correct/<string:ans1>/<string:ans2>/<string:explain>/<int:number>", methods=["GET", "POST"])
+def correct(ans1, ans2, explain, number):
     if request.method == "GET":
-        return render_template("correct.html", ans1=ans1, ans2=ans2, explain=explain)
+        return render_template("correct.html", number=number, ans1=ans1, ans2=ans2, explain=explain)
     else:
         return redirect(url_for("question"))
 
 
-@app.route("/wrong/<string:ans1>/<string:ans2>/<string:explain>", methods=["GET", "POST"])
-def wrong(ans1, ans2, explain):
+@app.route("/wrong/<string:ans1>/<string:ans2>/<string:explain>/<int:number>", methods=["GET", "POST"])
+def wrong(ans1, ans2, explain, number):
     if request.method == "GET":
-        return render_template("wrong.html", ans1=ans1, ans2=ans2, explain=explain)
+        return render_template("wrong.html", number=number, ans1=ans1, ans2=ans2, explain=explain)
     else:
         return redirect(url_for("question"))
 
