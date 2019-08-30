@@ -4,6 +4,7 @@ import random
 
 df = pd.read_csv("qs.csv", header=None, index_col=None)
 count = 1
+correct_count = 0
 
 flag = True
 app = Flask(__name__)
@@ -21,7 +22,7 @@ def title():
 @app.route("/question", methods=["GET", "POST"])
 def quiz():
     # データ呼び出し
-    global count, df, flag, ans1, ans2
+    global count, df, flag, ans1, ans2, correct_count
     print(flag, "flag")
     if flag:
         ans1 = random.randint(0, 1)
@@ -42,6 +43,7 @@ def quiz():
             cr = df.iloc[count - 2, 1]
             flag = True
             if (ans1 == 0 and memo == 0) | (ans1 == 1 and memo == 1):
+                correct_count += 1
                 print("correct answer")
                 return redirect(url_for("correct", ans11=cr, ans22=cr,
                                         explain=ex, number=count - 1))
@@ -74,7 +76,7 @@ def wrong(number, ans11, ans22, explain):
 def result():
     print(request.method)
     if request.method == "GET":
-        return "hello"
+        return correct_count, count
     else:
         return "result"
 
