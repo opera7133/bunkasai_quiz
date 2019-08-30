@@ -1,10 +1,56 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
+<meta charset="UTF-8">
+<title>QUIZ</title>
+
 <head>
-    <meta charset="UTF-8">
-    <title>wrong</title>
+    <style>
+        body {
+            background: #eeeeee;
+            font-family: Meiryo, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        div {
+            background: #ffffff;
+            width: 300px;
+            padding: 10px;
+            text-align: center;
+            border: 1px solid #cccccc;
+            margin: 30px auto;
+        }
+
+        input[type='submit'] {
+            width: 150px;
+            height: 40px;
+            border: 1px solid #cccccc;
+            padding: 1em 2em;
+        }
+    </style>
+    <title></title>
 </head>
+
 <body>
+
+<div>
+    <h1>技術科部 QUIZ</h1>
+    <form action="/wrong" method="POST">
+
+        <p>
+            <img src="/static/images/cross.png" width="50px" height="50px" alt="wrong"><br>
+            不正解です！<br><br>
+            問題１<br>
+            正解：answer1<br>
+            回答：answer2
+
+            <!--ここはpタグで書きましたが、実際に使う場合はなんか良さげに書き換えてください。 -->
+        </p>
+
+
+    </form>
+
+</div>
 
 
 </body>
