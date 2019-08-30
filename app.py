@@ -5,7 +5,9 @@ import random
 df = pd.read_csv("qs.csv", header=None, index_col=None)
 count = 1
 
+flag = True
 app = Flask(__name__)
+ans1 = ans2 = None
 
 
 @app.route('/', methods=["GET", "POST"])
@@ -19,10 +21,13 @@ def title():
 @app.route("/question", methods=["GET", "POST"])
 def quiz():
     # データ呼び出し
-    global count, df
-    ans1 = random.randint(0, 1)
-    print(df.iloc[count - 1, ans1 + 1], ans1)
-    ans2 = 1 - ans1
+    global count, df, flag, ans1, ans2
+    print(flag, "flag")
+    if flag:
+        ans1 = random.randint(0, 1)
+        print(df.iloc[count - 1, ans1 + 1], ans1)
+        ans2 = 1 - ans1
+        flag = False
     if len(df) == count:
         return redirect(url_for("result"))
     else:
@@ -32,38 +37,42 @@ def quiz():
         else:
             memo = int(request.form["1"])
             count += 1
-            print(ans1, memo)
+            # print(ans1, memo)
             ex = df.iloc[count - 2, 3]
             cr = df.iloc[count - 2, 1]
+            flag = True
             if (ans1 == 0 and memo == 0) | (ans1 == 1 and memo == 1):
                 print("correct answer")
-                return redirect(url_for("correct", ans1=cr, ans2=cr,
+                return redirect(url_for("correct", ans11=cr, ans22=cr,
                                         explain=ex, number=count - 1))
 
             else:
                 print("wrong answer")
-                return redirect(url_for("wrong", ans1=cr, ans2=df.iloc[count - 2, 2],
+                return redirect(url_for("wrong", ans11=cr, ans22=df.iloc[count - 2, 2],
                                         explain=ex, number=count - 1))
 
 
-@app.route("/correct/<string:ans1>/<string:ans2>/<string:explain>/<int:number>", methods=["GET", "POST"])
-def correct(number, ans1, ans2, explain):
+@app.route("/correct/<string:ans11>/<string:ans22>/<string:explain>/<int:number>", methods=["GET", "POST"])
+def correct(ans11, ans22, explain, number):
+    # print(request.form["next"])
     if request.method == "GET":
-        return render_template("correct.html", number=number, ans1=ans1, ans2=ans2, explain=explain)
+        return render_template("correct.html", number=number, ans1=ans11, ans2=ans22, explain=explain)
     else:
-        return redirect(url_for("question"))
+        return redirect(url_for("quiz"))
 
 
-@app.route("/wrong/<string:ans1>/<string:ans2>/<string:explain>/<int:number>", methods=["GET", "POST"])
-def wrong(number, ans1, ans2, explain):
+@app.route("/wrong/<string:ans11>/<string:ans22>/<string:explain>/<int:number>", methods=["GET", "POST"])
+def wrong(number, ans11, ans22, explain):
+    # print(request.form["start"])
     if request.method == "GET":
-        return render_template("wrong.html", number=number, ans1=ans1, ans2=ans2, explain=explain)
+        return render_template("wrong.html", number=number, ans1=ans11, ans2=ans22, explain=explain)
     else:
-        return redirect(url_for("question"))
+        return redirect(url_for("quiz"))
 
 
 @app.route("/result", methods=["GET", "POST"])
 def result():
+    print(request.method)
     if request.method == "GET":
         return "hello"
     else:

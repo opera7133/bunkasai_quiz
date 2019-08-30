@@ -36,27 +36,26 @@
 
 <div>
     <h1>技術科部 QUIZ</h1>
-    <form action="/correct" method="POST">
+    <form action="/" method="POST">
 
         <p>
-            <img src="/static/images/circle.png" width="50" height="50" alt="correct"><br>
+            <img src="/static/images/circle.png" width="50" height="50" alt="correct_"><br>
             正解です！<br><br>
             問題{{ number }}<br>
             正解：{{ ans1 }}<br>
 
             回答：{{ ans2 }}<br><br>
+        </p>
 
         <h3>解説</h3>
-        {{ explain }}
+        {{ explain }}<br>
 
         <!--ここはpタグで書きましたが、実際に使う場合はなんか良さげに書き換えてください。 -->
 
-        <input type="submit" name="next" value="次の問題" style="width: 150px;height: 40px">
-
-        </p>
-
-        <input type="submit" name="next" value="次の問題" style="width: 150px;height: 40px">
+        <input type="submit" value="次の問題" name="next" style="width: 150px;height: 40px">
     </form>
 
 </div>
 
+</body>
+</html>
