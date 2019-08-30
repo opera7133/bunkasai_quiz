@@ -5,6 +5,7 @@ import random
 df = pd.read_csv("qs.csv", header=None, index_col=None)
 print(df)
 count = 1
+print(len(df))
 
 app = Flask(__name__)
 
@@ -22,28 +23,30 @@ def title():
 def quiz():
     # データ呼び出し
     global count, df
-    # if len(df) == count:
-    #     redirect(url_for("result"))
-    # else:
     ans1 = random.randint(0, 1)
+    print(df.iloc[count - 1, ans1 + 1], ans1)
     ans2 = 1 - ans1
-    if request.method == "GET":
-        return render_template("index.html", number=count, ans1=df.iloc[count - 1, ans1 + 1],
-                               ans2=df.iloc[count - 1, ans2 + 1], question=df.iloc[count - 1, 0])
+    if len(df) == count:
+        return redirect(url_for("result"))
     else:
-        memo = int(request.form["1"])
-        count += 1
-        print(ans1, memo)
-        ex = df.iloc[count - 1, 3]
-        cr = df.iloc[count - 1, 2]
-        if df.iloc[count - 2, memo + 1] == cr:
-            print("correct answer")
-            return redirect(url_for("correct", ans1=cr, ans2=df.iloc[count - 2, memo + 1],
-                                    explain=ex, number=count))
+        if request.method == "GET":
+            return render_template("index.html", number=count, ans1=df.iloc[count - 1, ans1 + 1],
+                                   ans2=df.iloc[count - 1, ans2 + 1], question=df.iloc[count - 1, 0])
         else:
-            print("wrong answer")
-            return redirect(url_for("wrong", ans1=cr, ans2=df.iloc[count - 2, memo + 1],
-                                    explain=ex, number=count))
+            memo = int(request.form["1"])
+            count += 1
+            print(ans1, memo)
+            ex = df.iloc[count - 2, 3]
+            cr = df.iloc[count - 2, 1]
+            if (ans1 == 0 and memo == 0) | (ans1 == 1 and memo == 1):
+                print("correct answer")
+                return redirect(url_for("correct", ans1=cr, ans2=cr,
+                                        explain=ex, number=count - 1))
+
+            else:
+                print("wrong answer")
+                return redirect(url_for("wrong", ans1=cr, ans2=df.iloc[count - 2, 2],
+                                        explain=ex, number=count - 1))
 
 
 @app.route("/correct/<string:ans1>/<string:ans2>/<string:explain>/<int:number>", methods=["GET", "POST"])
@@ -64,7 +67,10 @@ def wrong(number, ans1, ans2, explain):
 
 @app.route("/result", methods=["GET", "POST"])
 def result():
-    pass
+    if request.method == "GET":
+        return "hello"
+    else:
+        return "result"
 
 
 if __name__ == '__main__':
