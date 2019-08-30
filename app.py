@@ -23,8 +23,6 @@ def quiz():
     global count, df
     ans1 = random.randint(0, 1)
     ans2 = 1 - ans1
-    # print(df.iloc[count - 1])
-    # print(df.iloc[ans1, count - 1])
     if request.method == "GET":
         # print(count)
         print("GET")
@@ -33,10 +31,10 @@ def quiz():
     else:
         print(request.form["1"])
         print("POST")
-        memo = request.form["1"]
+        memo = int(request.form["1"])
         count += 1
         print(ans1, memo)
-        if str(ans1) == memo:
+        if ans1 == 1 and memo == 0 or ans1 == 0 and memo == 1:
             print("correct answer")
             return redirect(url_for("correct"))
         else:
