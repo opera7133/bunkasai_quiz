@@ -22,6 +22,9 @@ def title():
 def quiz():
     # データ呼び出し
     global count, df
+    # if len(df) == count:
+    #     redirect(url_for("result"))
+    # else:
     ans1 = random.randint(0, 1)
     ans2 = 1 - ans1
     if request.method == "GET":
@@ -36,15 +39,15 @@ def quiz():
         if df.iloc[count - 2, memo + 1] == cr:
             print("correct answer")
             return redirect(url_for("correct", ans1=cr, ans2=df.iloc[count - 2, memo + 1],
-                                    explain=ex))
+                                    explain=ex, number=count))
         else:
             print("wrong answer")
             return redirect(url_for("wrong", ans1=cr, ans2=df.iloc[count - 2, memo + 1],
-                                    explain=ex))
+                                    explain=ex, number=count))
 
 
 @app.route("/correct/<string:ans1>/<string:ans2>/<string:explain>/<int:number>", methods=["GET", "POST"])
-def correct(ans1, ans2, explain, number):
+def correct(number, ans1, ans2, explain):
     if request.method == "GET":
         return render_template("correct.html", number=number, ans1=ans1, ans2=ans2, explain=explain)
     else:
@@ -52,11 +55,16 @@ def correct(ans1, ans2, explain, number):
 
 
 @app.route("/wrong/<string:ans1>/<string:ans2>/<string:explain>/<int:number>", methods=["GET", "POST"])
-def wrong(ans1, ans2, explain, number):
+def wrong(number, ans1, ans2, explain):
     if request.method == "GET":
         return render_template("wrong.html", number=number, ans1=ans1, ans2=ans2, explain=explain)
     else:
         return redirect(url_for("question"))
+
+
+@app.route("/result", methods=["GET", "POST"])
+def result():
+    pass
 
 
 if __name__ == '__main__':
