@@ -14,7 +14,7 @@
 
         div {
             background: #ffffff;
-            width: 300px;
+            width: 400px;
             padding: 10px;
             text-align: center;
             border: 1px solid #cccccc;
@@ -38,11 +38,16 @@
     <form action="/wrong" method="POST">
 
         <p>
-            <img src="/static/images/cross.png" width="50px" height="50px" alt="wrong"><br>
+            <img src="/static/images/cross.png" width="50" height="50" alt="wrong"><br>
             不正解です！<br><br>
             問題１<br>
-            正解：answer1<br>
-            回答：answer2
+
+
+            正解：{{ ans1 }}<br>
+
+            回答：{{ ans2 }}<br><br>
+
+            解説：{{ explain }}
 
             <!--ここはpタグで書きましたが、実際に使う場合はなんか良さげに書き換えてください。 -->
         </p>
