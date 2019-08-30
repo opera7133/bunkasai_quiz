@@ -3,16 +3,13 @@ import pandas as pd
 import random
 
 df = pd.read_csv("qs.csv", header=None, index_col=None)
-print(df)
 count = 1
-print(len(df))
 
 app = Flask(__name__)
 
 
 @app.route('/', methods=["GET", "POST"])
 def title():
-    # action = request.form.getlist("action")
     if request.method == "GET":
         return render_template("title.html")
     else:
