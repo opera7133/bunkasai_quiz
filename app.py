@@ -32,7 +32,7 @@ def quiz():
         print(ans1, memo)
         ex = df.iloc[count - 1, 3]
         cr = df.iloc[count - 1, 2]
-        if ans1 == 1 and memo == 0 or ans1 == 0 and memo == 1:
+        if df.iloc[count - 2, memo + 1] == cr:
             print("correct answer")
             return redirect(url_for("correct", ans1=cr, ans2=df.iloc[count - 2, memo + 1],
                                     explain=ex))
@@ -42,18 +42,15 @@ def quiz():
                                     explain=ex))
 
 
-@app.route("/correct/<string:ans1><string:ans2><string:explain>", methods=["GET", "POST"])
+@app.route("/correct/<string:ans1>/<string:ans2>/<string:explain>", methods=["GET", "POST"])
 def correct(ans1, ans2, explain):
-    print(ans1)
-    print(ans2)
-    print(explain)
     if request.method == "GET":
         return render_template("correct.html", ans1=ans1, ans2=ans2, explain=explain)
     else:
         return redirect(url_for("question"))
 
 
-@app.route("/wrong/<string:ans1><string:ans2><string:explain>", methods=["GET", "POST"])
+@app.route("/wrong/<string:ans1>/<string:ans2>/<string:explain>", methods=["GET", "POST"])
 def wrong(ans1, ans2, explain):
     if request.method == "GET":
         return render_template("wrong.html", ans1=ans1, ans2=ans2, explain=explain)
