@@ -79,9 +79,11 @@ def result():
     pie_plot(correct_count, count - 1 - correct_count)
     print(request.method)
     if request.method == "GET":
-        return correct_count, count
+        return render_template("result.html", count=count-1, correct_count=correct_count)
     else:
-        return "result"
+        correct_count = 0
+        count = 1
+        return redirect(url_for("title"))
 
 
 def pie_plot(co, wr):

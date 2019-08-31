@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>QUIZ</title>
+    <style>
+        body {
+            background: #eeeeee;
+            font-family: Meiryo, serif;
+        }
+
+        div {
+            background: #ffffff;
+            width: 400px;
+            padding: 10px;
+            text-align: center;
+            border: 1px solid #cccccc;
+            margin: 30px auto;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div>
+    <h1>技術科部 QUIZ</h1>
+    <form action="/result" method="POST">
+
+        <p>{{ count }}問中 {{ correct_count }}問正解！<br></p>
+        <p>
+            <img src="/static/images/pie_plot.png" width="400" height="300" alt="pie_plot">
+        </p>
+        <!-- form リダイレクト先を変更して置いてください-->
+        <input type="submit" value="スタートに戻る" name="start" style="width: 150px;height: 40px">
+    </form>
+</div>
+
+</body>
+</html>
