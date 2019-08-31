@@ -3,7 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <link rel="shortcut icon" href="../static/ico/favicon.ico">
+    <?php
 
+      header( 'Etag:' . time() );
+
+    ?>
     <title>QUIZ</title>
     <style>
         body {

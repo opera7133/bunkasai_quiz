@@ -10,8 +10,9 @@ count = 1
 correct_count = 0
 
 flag = True
-app = Flask(__name__)
 ans1 = ans2 = None
+
+app = Flask(__name__)
 
 
 @app.route('/', methods=["GET", "POST"])
