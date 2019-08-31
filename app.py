@@ -1,4 +1,5 @@
 import random
+import os
 
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -11,12 +12,24 @@ correct_count = 0
 
 flag = True
 ans1 = ans2 = None
+page_count = 0
+page_flag = True
+for i in range(10):
+    if os.path.isfile("static/images/pie_plot" + str(i) + ".png"):
+        os.remove("static/images/pie_plot" + str(i) + ".png")
 
 app = Flask(__name__)
 
 
 @app.route('/', methods=["GET", "POST"])
 def title():
+    global page_count, page_flag
+    if page_flag:
+        page_count += 1
+        page_flag = False
+    if page_count > 10:
+        # 諦める
+        page_count = 0
     if request.method == "GET":
         return render_template("title.html")
     else:
@@ -78,11 +91,12 @@ def wrong(number, ans11, ans22, explain):
 
 @app.route("/result", methods=["GET", "POST"])
 def result():
-    global count, correct_count
+    global count, correct_count, page_count, page_flag
     pie_plot(correct_count, count - 1 - correct_count)
+    page_flag = True
     print(request.method)
     if request.method == "GET":
-        return render_template("result.html", count=count - 1, correct_count=correct_count)
+        return render_template("result.html", count=count - 1, correct_count=correct_count, page_count=str(page_count))
     else:
         correct_count = 0
         count = 1
@@ -90,11 +104,12 @@ def result():
 
 
 def pie_plot(co, wr):
+    global page_count
     labels = ["Correct", "Wrong"]
     x = [co, wr]
     plt.pie(x, labels=labels, counterclock=False, startangle=90, autopct="%1.1f%%")
     plt.legend(labels, fontsize=12)
-    plt.savefig("static/images/pie_plot.png")
+    plt.savefig("static/images/pie_plot{}.png".format(str(page_count)))
     plt.cla()
 
 
