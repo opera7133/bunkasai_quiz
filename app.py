@@ -1,7 +1,8 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, send_from_directory
 import pandas as pd
 import random
 import matplotlib.pyplot as plt
+import os
 
 df = pd.read_csv("qs.csv", header=None, index_col=None)
 count = 1
@@ -79,7 +80,7 @@ def result():
     pie_plot(correct_count, count - 1 - correct_count)
     print(request.method)
     if request.method == "GET":
-        return render_template("result.html", count=count-1, correct_count=correct_count)
+        return render_template("result.html", count=count - 1, correct_count=correct_count)
     else:
         correct_count = 0
         count = 1
@@ -87,10 +88,13 @@ def result():
 
 
 def pie_plot(co, wr):
+    if os.path.isfile("static/images/pie_plog.png"):
+        os.remove("static/images/pie_plot.png")
     labels = ["Correct", "Wrong"]
     x = [co, wr]
     plt.pie(x, labels=labels, counterclock=False, startangle=90, autopct="%1.1f%%")
     plt.savefig("static/images/pie_plot.png")
+    plt.cla()
 
 
 if __name__ == '__main__':
