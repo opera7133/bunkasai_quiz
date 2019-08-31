@@ -1,8 +1,9 @@
-from flask import Flask, render_template, request, redirect, url_for, send_from_directory
-import pandas as pd
 import random
+
 import matplotlib.pyplot as plt
-import os
+import pandas as pd
+from flask import Flask, render_template, request, redirect, url_for
+
 
 df = pd.read_csv("qs.csv", header=None, index_col=None)
 count = 1
@@ -88,11 +89,10 @@ def result():
 
 
 def pie_plot(co, wr):
-    if os.path.isfile("static/images/pie_plog.png"):
-        os.remove("static/images/pie_plot.png")
     labels = ["Correct", "Wrong"]
     x = [co, wr]
     plt.pie(x, labels=labels, counterclock=False, startangle=90, autopct="%1.1f%%")
+    plt.legend(labels, fontsize=12)
     plt.savefig("static/images/pie_plot.png")
     plt.cla()
 
